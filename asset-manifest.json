@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/FormMeetingRoom/static/css/main.3dc520d5.css",
+    "main.js": "/FormMeetingRoom/static/js/main.554dfca5.js",
+    "index.html": "/FormMeetingRoom/index.html",
+    "main.3dc520d5.css.map": "/FormMeetingRoom/static/css/main.3dc520d5.css.map",
+    "main.554dfca5.js.map": "/FormMeetingRoom/static/js/main.554dfca5.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.3dc520d5.css",
+    "static/js/main.554dfca5.js"
+  ]
+}
