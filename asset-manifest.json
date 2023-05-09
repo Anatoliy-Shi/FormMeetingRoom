@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/FormMeetingRoom/static/css/main.c98b738a.css",
-    "main.js": "/FormMeetingRoom/static/js/main.554dfca5.js",
+    "main.css": "/FormMeetingRoom/static/css/main.fc3d93d8.css",
+    "main.js": "/FormMeetingRoom/static/js/main.25b008ce.js",
     "index.html": "/FormMeetingRoom/index.html",
-    "main.c98b738a.css.map": "/FormMeetingRoom/static/css/main.c98b738a.css.map",
-    "main.554dfca5.js.map": "/FormMeetingRoom/static/js/main.554dfca5.js.map"
+    "main.fc3d93d8.css.map": "/FormMeetingRoom/static/css/main.fc3d93d8.css.map",
+    "main.25b008ce.js.map": "/FormMeetingRoom/static/js/main.25b008ce.js.map"
   },
   "entrypoints": [
-    "static/css/main.c98b738a.css",
-    "static/js/main.554dfca5.js"
+    "static/css/main.fc3d93d8.css",
+    "static/js/main.25b008ce.js"
   ]
 }
