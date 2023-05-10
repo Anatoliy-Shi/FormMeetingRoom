@@ -21,14 +21,14 @@ export const SelectDay = () => {
         setMinMinutes(startDate?.getMinutes() + intervalTime)
         setMinHours(startDate?.getHours())
         if (startDate?.getHours() >= endDate?.getHours()) {
-            if(startDate?.getMinutes() >= endDate?.getMinutes()) {
+            if (startDate?.getMinutes() >= endDate?.getMinutes()) {
                 dispatch(setEndDate(setHours(setMinutes(startDate, startDate.getMinutes() + intervalTime),
-                    startDate.getMinutes()+intervalTime === 60
+                    startDate.getMinutes() + intervalTime === 60
                         ? startDate.getHours() + 1
                         : startDate.getHours())))
             }
         }
-    }, [startDate, endDate, dispatch])
+    }, [startDate])
 
     const handeChangeDate = (date) => {
         dispatch(setStartDate(date))
@@ -36,12 +36,12 @@ export const SelectDay = () => {
             dispatch(setStartDate(setHours(date, minTime)))
         }
         if (!endDate) {
-            // dispatch(setEndDate(setHours(setMinutes(date, intervalTime), minTime)))
-
-            dispatch(setEndDate(setHours(setMinutes(startDate, startDate.getMinutes() + intervalTime),
-                startDate.getMinutes()+intervalTime === 60
-                    ? startDate.getHours() + 1
-                    : startDate.getHours())))
+            if (startDate) {
+                dispatch(setEndDate(setHours(setMinutes(startDate, startDate?.getMinutes() + 15),
+                    startDate?.getMinutes() + intervalTime === 60
+                        ? startDate?.getHours() + 1
+                        : startDate?.getHours())))
+            }
         }
     }
 
