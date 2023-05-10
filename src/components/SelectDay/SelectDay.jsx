@@ -6,49 +6,65 @@ import {setStartDate, setEndDate} from "../../store/slice/formSlice";
 import {setHours, setMinutes} from "date-fns";
 import {forwardRef, useEffect, useState} from "react";
 import {Box, FormControl, TextField} from "@mui/material";
-import {maxTime, minTime} from "../../constant/time";
+import {intervalTime, maxTime, minTime} from "../../constant/time";
 
 
 export const SelectDay = () => {
     const {startDate, endDate} = useSelector((state) => state.form)
     const dispatch = useDispatch()
 
-    const [endMinutes, setEndMinutes] = useState()
-    const [endHours, setEndHours] = useState()
+    const [minMinutes, setMinMinutes] = useState(null)
+    const [minHours, setMinHours] = useState(null)
 
 
     useEffect(() => {
-        setEndMinutes(startDate?.getMinutes() + 1)
-        setEndHours(startDate?.getHours())
-    }, [startDate])
+        setMinMinutes(startDate?.getMinutes() + intervalTime)
+        setMinHours(startDate?.getHours())
+        if (startDate?.getHours() >= endDate?.getHours()) {
+            if(startDate?.getMinutes() >= endDate?.getMinutes()) {
+                dispatch(setEndDate(setHours(setMinutes(startDate, startDate.getMinutes() + intervalTime),
+                    startDate.getMinutes()+intervalTime === 60
+                        ? startDate.getHours() + 1
+                        : startDate.getHours())))
+            }
+        }
+    }, [startDate, endDate, dispatch])
 
     const handeChangeDate = (date) => {
-        if (date?.getHours() !== 0) {
-            dispatch(setStartDate(date))
-            dispatch(setEndDate(date))
+        dispatch(setStartDate(date))
+        if (!startDate) {
+            dispatch(setStartDate(setHours(date, minTime)))
         }
+        if (!endDate) {
+            // dispatch(setEndDate(setHours(setMinutes(date, intervalTime), minTime)))
 
+            dispatch(setEndDate(setHours(setMinutes(startDate, startDate.getMinutes() + intervalTime),
+                startDate.getMinutes()+intervalTime === 60
+                    ? startDate.getHours() + 1
+                    : startDate.getHours())))
+        }
     }
 
     const handleSetStartDate = (date) => {
         dispatch(setStartDate(date))
     }
+
     const handleSetEndDate = (date) => {
         dispatch(setEndDate(date))
     }
 
     const CustomInput = forwardRef(({onClick, value, label}, ref) => (
         <>
-            <Box sx={{ width: 251 }}>
+            <Box sx={{width: 251}}>
                 <FormControl fullWidth>
-            <TextField sx={{
-                textAlign: 'center',
-                width: '100%'
-            }} value={value}
-                       onClick={onClick}
-                       ref={ref}
-                       label={label}
-            />
+                    <TextField sx={{
+                        textAlign: 'center',
+                        width: '100%'
+                    }} value={value}
+                               onClick={onClick}
+                               ref={ref}
+                               label={label}
+                    />
                 </FormControl>
             </Box>
         </>
@@ -88,10 +104,11 @@ export const SelectDay = () => {
                     timeCaption="Конец"
                     dateFormat="HH:mm"
                     timeFormat="HH:mm"
-                    minTime={setHours(setMinutes(new Date(), endMinutes), endHours)}
-                    maxTime={setHours(setMinutes(new Date(), 15), maxTime)}
+                    minTime={setHours(setMinutes(new Date(), minMinutes), minHours)}
+                    maxTime={setHours(setMinutes(new Date(), intervalTime), maxTime)}
                 />
             </div>
+            <p className={'notation'}>*минимальный промежуток времени 15 минут</p>
         </div>
     );
 };
