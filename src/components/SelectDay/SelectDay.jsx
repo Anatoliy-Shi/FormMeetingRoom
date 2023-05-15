@@ -18,30 +18,28 @@ export const SelectDay = () => {
 
 
     useEffect(() => {
-        setMinMinutes(startDate?.getMinutes() + intervalTime)
-        setMinHours(startDate?.getHours())
-        if (startDate?.getHours() >= endDate?.getHours()) {
-            if (startDate?.getMinutes() >= endDate?.getMinutes()) {
-                dispatch(setEndDate(setHours(setMinutes(startDate, startDate.getMinutes() + intervalTime),
-                    startDate.getMinutes() + intervalTime === 60
-                        ? startDate.getHours() + 1
-                        : startDate.getHours())))
-            }
+        if (startDate && startDate.getMinutes() === 45) {
+            setMinHours(startDate?.getHours() + 1)
+            setMinMinutes(0)
+        } else {
+            setMinMinutes(startDate?.getMinutes() + intervalTime)
+            setMinHours(startDate?.getHours())
         }
-    }, [startDate])
+
+        if (startDate && startDate >= endDate) {
+            dispatch(setEndDate(setHours(setMinutes(startDate, startDate?.getMinutes() + intervalTime),
+                startDate?.getMinutes() + intervalTime === 60
+                    ? startDate?.getHours() + 1
+                    : startDate?.getHours())))
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [startDate, endDate])
 
     const handeChangeDate = (date) => {
         dispatch(setStartDate(date))
+        dispatch(setEndDate(date))
         if (!startDate) {
             dispatch(setStartDate(setHours(date, minTime)))
-        }
-        if (!endDate) {
-            if (startDate) {
-                dispatch(setEndDate(setHours(setMinutes(startDate, startDate?.getMinutes() + 15),
-                    startDate?.getMinutes() + intervalTime === 60
-                        ? startDate?.getHours() + 1
-                        : startDate?.getHours())))
-            }
         }
     }
 
@@ -85,7 +83,7 @@ export const SelectDay = () => {
                     onChange={(date) => handleSetStartDate(date)}
                     showTimeSelect
                     showTimeSelectOnly
-                    timeIntervals={15}
+                    timeIntervals={intervalTime}
                     timeCaption="Начало"
                     dateFormat="HH:mm"
                     timeFormat="HH:mm"
@@ -100,7 +98,7 @@ export const SelectDay = () => {
                     onChange={(date) => handleSetEndDate(date)}
                     showTimeSelect
                     showTimeSelectOnly
-                    timeIntervals={15}
+                    timeIntervals={intervalTime}
                     timeCaption="Конец"
                     dateFormat="HH:mm"
                     timeFormat="HH:mm"
